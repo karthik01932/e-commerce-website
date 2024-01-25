@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const errorController = require('./controllers/error');
-const db = require('./util/datebase');
+const sequelize = require('./util/datebase');
 
 const app = express();
 
@@ -24,4 +24,13 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-app.listen(4000);
+sequelize
+    .sync()
+    .then(result =>{
+        // console.log(result);
+        app.listen(4000);
+    })
+    .catch(err => {
+        console.log(err);
+    })
+
